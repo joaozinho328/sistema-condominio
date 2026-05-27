@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h1>Minhas Reservas</h1>
+
+<table>
+
+    <tr>
+        <th>Área</th>
+        <th>Data</th>
+        <th>Horário</th>
+        <th>Ações</th>
+    </tr>
+
+    {% for reserva in reservas %}
+
+    <tr>
+
+        <td>{{ reserva[2] }}</td>
+        <td>{{ reserva[3] }}</td>
+        <td>{{ reserva[4] }}</td>
+
+        <td>
+
+            <a href="/editar/{{ reserva[0] }}" class="botao">
+                Editar
+            </a>
+
+            <a href="/excluir/{{ reserva[0] }}" class="botao-excluir">
+                Excluir
+            </a>
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% endblock %}

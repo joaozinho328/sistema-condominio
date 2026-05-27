@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<div class="container mt-4">
+
+   <h1 class="mb-2">
+    Bem-vindo {{ session["usuario"] }}
+</h1>
+
+<p class="text-muted mb-4">
+
+    Bloco {{ session["bloco"] }}
+    -
+    Apartamento {{ session["apartamento"] }}
+
+</p>
+
+    <div class="row">
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <h1>{{ total_reservas }}</h1>
+
+                    <p>Reservas</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <h1>{{ total_avisos }}</h1>
+
+                    <p>Avisos</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <h1>{{ total_sugestoes }}</h1>
+
+                    <p>Sugestões</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <h1>{{ total_mensagens }}</h1>
+
+                    <p>Mensagens</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow p-4 mt-4">
+
+        <h3 class="mb-4">
+            Reservas por Área
+        </h3>
+
+        <canvas id="graficoReservas"></canvas>
+
+    </div>
+
+</div>
+
+<script>
+
+var ctx = document.getElementById("graficoReservas");
+
+new Chart(ctx, {
+
+    type: "bar",
+
+    data: {
+
+        labels: {{ areas | tojson }},
+
+        datasets: [{
+
+            label: "Reservas",
+
+            data: {{ quantidades | tojson }},
+
+            borderWidth: 1
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true
+
+            }
+
+        }
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

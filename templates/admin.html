@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h1 class="mb-4">
+    Painel Administrativo
+</h1>
+
+<a href="/criar_pagamento"
+   class="btn btn-primary mb-4">
+
+   Nova Cobrança
+
+</a>
+
+<div class="card shadow p-4">
+
+    <h3 class="mb-4">
+        Moradores
+    </h3>
+
+    <table class="table table-striped">
+
+        <tr>
+
+            <th>ID</th>
+
+            <th>Nome</th>
+
+            <th>Email</th>
+
+            <th>Bloco</th>
+
+            <th>Apartamento</th>
+
+            <th>Ações</th>
+
+        </tr>
+
+        {% for usuario in usuarios %}
+
+        <tr>
+
+            <td>{{ usuario[0] }}</td>
+
+            <td>{{ usuario[1] }}</td>
+
+            <td>{{ usuario[2] }}</td>
+
+            <td>{{ usuario[3] }}</td>
+
+            <td>{{ usuario[4] }}</td>
+
+            <td>
+
+    <a href="/excluir_usuario/{{ usuario[0] }}"
+       class="btn btn-danger btn-sm">
+
+       Excluir
+
+    </a>
+
+</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+{% endblock %}

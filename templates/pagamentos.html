@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h1>Área de Pagamentos</h1>
+
+<table>
+
+    <tr>
+
+        <th>Descrição</th>
+        <th>Valor</th>
+        <th>Status</th>
+
+    </tr>
+
+    {% for pagamento in pagamentos %}
+
+    <tr>
+
+        <td>{{ pagamento[2] }}</td>
+
+        <td>R$ {{ pagamento[3] }}</td>
+
+        <td>{{ pagamento[4] }}</td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% endblock %}

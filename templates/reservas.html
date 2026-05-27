@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<div class="container mt-4">
+
+    <h1 class="mb-4">
+        Reservar Área
+    </h1>
+
+    <form method="POST" class="card shadow p-4">
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Área
+            </label>
+
+            <select name="area" class="form-control">
+
+                <option>Piscina</option>
+
+                <option>Quadra</option>
+
+                <option>Churrasqueira</option>
+
+            </select>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Data
+            </label>
+
+            <input type="date"
+                   name="data"
+                   class="form-control"
+                   required>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Horário
+            </label>
+
+            <input type="time"
+                   name="horario"
+                   class="form-control"
+                   required>
+
+        </div>
+
+        <button type="submit"
+                class="btn btn-primary">
+
+            Reservar
+
+        </button>
+
+    </form>
+
+    <div class="card shadow p-4 mt-5">
+
+        <h3 class="mb-4">
+            Calendário de Reservas
+        </h3>
+
+        <div id="calendario"></div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    var calendario = document.getElementById('calendario');
+
+    var calendar = new FullCalendar.Calendar(calendario, {
+
+        initialView: 'dayGridMonth',
+
+        locale: 'pt-br',
+
+        height: 650,
+
+        events: {{ eventos | tojson }}
+
+    });
+
+    calendar.render();
+
+});
+
+</script>
+
+{% endblock %}

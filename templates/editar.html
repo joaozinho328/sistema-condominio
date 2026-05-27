@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Editar Reserva</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Editar Reserva</h1>
+
+        <form method="POST">
+
+            <label>Área</label>
+
+            <br>
+
+            <select name="area">
+
+                <option value="Churrasqueira"
+                {% if reserva[2] == "Churrasqueira" %}selected{% endif %}>
+                Churrasqueira
+                </option>
+
+                <option value="Piscina"
+                {% if reserva[2] == "Piscina" %}selected{% endif %}>
+                Piscina
+                </option>
+
+                <option value="Quadra"
+                {% if reserva[2] == "Quadra" %}selected{% endif %}>
+                Quadra
+                </option>
+
+            </select>
+
+            <br><br>
+
+            <label>Data</label>
+
+            <br>
+
+            <input type="date" name="data" value="{{ reserva[3] }}">
+
+            <br><br>
+
+            <label>Horário</label>
+
+            <br>
+
+            <input type="time" name="horario" value="{{ reserva[4] }}">
+
+            <br><br>
+
+            <button type="submit">
+                Salvar
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>

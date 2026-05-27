@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h1>Central de Avisos</h1>
+
+<form method="POST">
+
+    <input type="text"
+           name="titulo"
+           placeholder="Título do aviso">
+
+    <br><br>
+
+    <textarea name="mensagem"
+              placeholder="Digite o aviso"
+              rows="5"
+              style="width:100%; padding:10px;"></textarea>
+
+    <br><br>
+
+    <button type="submit">
+        Publicar Aviso
+    </button>
+
+</form>
+
+<hr>
+
+{% for aviso in avisos %}
+
+<div class="card">
+
+    <h2>{{ aviso[1] }}</h2>
+
+    <p>{{ aviso[2] }}</p>
+
+</div>
+
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h1>Espaço de Convivência</h1>
+
+<form method="POST">
+
+    <textarea name="mensagem"
+              placeholder="Escreva uma mensagem"
+              rows="5"
+              style="width:100%; padding:10px;"></textarea>
+
+    <br><br>
+
+    <button type="submit">
+        Publicar
+    </button>
+
+</form>
+
+<hr>
+
+{% for mensagem in mensagens %}
+
+<div class="card">
+
+    <h3>{{ mensagem[1] }}</h3>
+
+    <p>{{ mensagem[2] }}</p>
+
+</div>
+
+{% endfor %}
+
+{% endblock %}
