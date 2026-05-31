@@ -16,6 +16,12 @@
 
     </h4>
 
+    <div class="card shadow border-0 p-3 mb-4">
+
+    <h5 id="relogio"></h5>
+
+</div>
+
     <p class="text-muted mb-0">
 
         🏢 Bloco {{ session["bloco"] }}
@@ -181,6 +187,17 @@ new Chart(ctx, {
     }
 
 });
+
+<script>
+
+setInterval(function(){
+
+document.getElementById("relogio").innerHTML =
+new Date().toLocaleString("pt-BR");
+
+},1000);
+
+</script>
 
 </script>
 

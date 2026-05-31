@@ -27,6 +27,7 @@
     </div>
 
     <!-- CARDS -->
+
     <div class="row">
 
         <div class="col-md-4 mb-4">
@@ -106,6 +107,12 @@
     <!-- TABELA -->
 
     <div class="card shadow border-0 p-4">
+
+        <input
+    type="text"
+    id="pesquisa"
+    class="form-control mb-3"
+    placeholder="Pesquisar morador...">
 
         <h3 class="mb-4">
             Moradores Cadastrados
@@ -213,6 +220,30 @@ new Chart(ctx, {
     }
 
 });
+
+<script>
+
+document.getElementById("pesquisa")
+.addEventListener("keyup", function(){
+
+let filtro = this.value.toLowerCase();
+
+let linhas =
+document.querySelectorAll("tbody tr");
+
+linhas.forEach(function(linha){
+
+linha.style.display =
+linha.innerText.toLowerCase()
+.includes(filtro)
+? ""
+: "none";
+
+});
+
+});
+
+</script>
 
 </script>
 

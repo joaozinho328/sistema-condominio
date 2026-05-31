@@ -242,3 +242,38 @@ body{
 canvas{
     max-height:300px;
 }
+
+body{
+    background:#f4f6f9;
+}
+
+.navbar{
+    padding:12px 0;
+}
+
+.card{
+    border:none;
+    border-radius:15px;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+    transition:.3s;
+}
+
+.table{
+    background:white;
+}
+
+.nav-link{
+    font-weight:500;
+    margin-right:10px;
+}
+
+canvas{
+    max-height:300px;
+}
+
+footer{
+    margin-top:50px;
+}
