@@ -20,6 +20,8 @@ from routes.admin import admin
 
 app = Flask(__name__)
 
+print(app.static_folder)
+
 app.register_blueprint(auth)
 
 app.secret_key = "condominio"

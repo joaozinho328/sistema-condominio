@@ -4,29 +4,47 @@
 
 <div class="container mt-4">
 
-   <h1 class="mb-2">
-    Bem-vindo {{ session["usuario"] }}
-</h1>
+    <div class="card shadow border-0 p-4 mb-4">
 
-<p class="text-muted mb-4">
+    <h1 class="fw-bold">
+        Bem-vindo ao Complexo Lindenberg
+    </h1>
 
-    Bloco {{ session["bloco"] }}
-    -
-    Apartamento {{ session["apartamento"] }}
+    <h4 class="text-secondary mt-3">
 
-</p>
+        Olá, {{ session["usuario"] }}
+
+    </h4>
+
+    <p class="text-muted mb-0">
+
+        🏢 Bloco {{ session["bloco"] }}
+        |
+        🚪 Apartamento {{ session["apartamento"] }}
+
+    </p>
+
+    </div>
 
     <div class="row">
 
         <div class="col-md-3 mb-4">
 
-            <div class="card shadow text-center">
+            <div class="card shadow border-0 text-center">
 
                 <div class="card-body">
 
-                    <h1>{{ total_reservas }}</h1>
+                    <h1 class="display-5 text-primary">
 
-                    <p>Reservas</p>
+                        {{ total_reservas }}
+
+                    </h1>
+
+                    <h5>
+
+                        Reservas
+
+                    </h5>
 
                 </div>
 
@@ -36,13 +54,21 @@
 
         <div class="col-md-3 mb-4">
 
-            <div class="card shadow text-center">
+            <div class="card shadow border-0 text-center">
 
                 <div class="card-body">
 
-                    <h1>{{ total_avisos }}</h1>
+                    <h1 class="display-5 text-success">
 
-                    <p>Avisos</p>
+                        {{ total_avisos }}
+
+                    </h1>
+
+                    <h5>
+
+                        Avisos
+
+                    </h5>
 
                 </div>
 
@@ -52,13 +78,21 @@
 
         <div class="col-md-3 mb-4">
 
-            <div class="card shadow text-center">
+            <div class="card shadow border-0 text-center">
 
                 <div class="card-body">
 
-                    <h1>{{ total_sugestoes }}</h1>
+                    <h1 class="display-5 text-warning">
 
-                    <p>Sugestões</p>
+                        {{ total_sugestoes }}
+
+                    </h1>
+
+                    <h5>
+
+                        Sugestões
+
+                    </h5>
 
                 </div>
 
@@ -68,13 +102,21 @@
 
         <div class="col-md-3 mb-4">
 
-            <div class="card shadow text-center">
+            <div class="card shadow border-0 text-center">
 
                 <div class="card-body">
 
-                    <h1>{{ total_mensagens }}</h1>
+                    <h1 class="display-5 text-danger">
 
-                    <p>Mensagens</p>
+                        {{ total_mensagens }}
+
+                    </h1>
+
+                    <h5>
+
+                        Mensagens
+
+                    </h5>
 
                 </div>
 
@@ -84,10 +126,12 @@
 
     </div>
 
-    <div class="card shadow p-4 mt-4">
+    <div class="card shadow border-0 p-4">
 
         <h3 class="mb-4">
+
             Reservas por Área
+
         </h3>
 
         <canvas id="graficoReservas"></canvas>

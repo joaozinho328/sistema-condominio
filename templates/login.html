@@ -1,37 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 
 <head>
 
-    <title>Login</title>
+    <meta charset="UTF-8">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login - Complexo Lindenberg</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 
-<body>
+<body class="login-body">
 
-    <div class="container">
+<div class="login-container">
 
-        <h1>Login</h1>
+    <div class="login-card">
+
+        <img src="/static/logo.png"
+             class="logo-login">
+
+        <h2>Lindenberg</h2>
+
+           <p class="text-muted">
+             Gestão Condominial
+        </p>
 
         <form method="POST">
 
-            <input type="email" name="email" placeholder="Email">
+            <div class="mb-3">
 
-            <br><br>
+                <input type="email"
+                       name="email"
+                       class="form-control"
+                       placeholder="Digite seu email"
+                       required>
 
-            <input type="password" name="senha" placeholder="Senha">
+            </div>
 
-            <br><br>
+            <div class="mb-3">
 
-            <button type="submit">
+                <input type="password"
+                       name="senha"
+                       class="form-control"
+                       placeholder="Digite sua senha"
+                       required>
+
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary w-100">
+
                 Entrar
+
             </button>
 
         </form>
 
     </div>
+
+</div>
 
 </body>
 
