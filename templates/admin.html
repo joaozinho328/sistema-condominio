@@ -2,72 +2,192 @@
 
 {% block conteudo %}
 
-<h1 class="mb-4">
-    Painel Administrativo
-</h1>
+<div class="container mt-4">
 
-<a href="/criar_pagamento"
-   class="btn btn-primary mb-4">
+    <h1 class="mb-4">
+        Painel Administrativo
+    </h1>
 
-   Nova Cobrança
+    <a href="/criar_pagamento"
+       class="btn btn-primary mb-4">
 
-</a>
-
-<div class="card shadow p-4">
-
-    <h3 class="mb-4">
-        Moradores
-    </h3>
-
-    <table class="table table-striped">
-
-        <tr>
-
-            <th>ID</th>
-
-            <th>Nome</th>
-
-            <th>Email</th>
-
-            <th>Bloco</th>
-
-            <th>Apartamento</th>
-
-            <th>Ações</th>
-
-        </tr>
-
-        {% for usuario in usuarios %}
-
-        <tr>
-
-            <td>{{ usuario[0] }}</td>
-
-            <td>{{ usuario[1] }}</td>
-
-            <td>{{ usuario[2] }}</td>
-
-            <td>{{ usuario[3] }}</td>
-
-            <td>{{ usuario[4] }}</td>
-
-            <td>
-
-    <a href="/excluir_usuario/{{ usuario[0] }}"
-       class="btn btn-danger btn-sm">
-
-       Excluir
+       Nova Cobrança
 
     </a>
 
-</td>
+    <a href="/relatorio"
+       class="btn btn-success mb-4">
 
-        </tr>
+       Gerar Relatório PDF
 
-        {% endfor %}
+    </a>
 
-    </table>
+    <!-- CARDS -->
+    <div class="row">
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <h1>{{ total_moradores }}</h1>
+
+                    <p>Moradores</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <h1>{{ total_reservas }}</h1>
+
+                    <p>Reservas</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <h1>{{ pagamentos_pendentes }}</h1>
+
+                    <p>Pagamentos Pendentes</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- GRAFICO -->
+    <div class="card shadow p-4 mb-5">
+
+        <h3 class="mb-4">
+            Reservas por Área
+        </h3>
+
+        <canvas id="graficoReservas"></canvas>
+
+    </div>
+
+    <!-- TABELA -->
+    <div class="card shadow p-4">
+
+        <h3 class="mb-4">
+            Moradores
+        </h3>
+
+        <table class="table table-striped">
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Nome</th>
+
+                <th>Email</th>
+
+                <th>Bloco</th>
+
+                <th>Apartamento</th>
+
+                <th>Ações</th>
+
+            </tr>
+
+            {% for usuario in usuarios %}
+
+            <tr>
+
+                <td>{{ usuario[0] }}</td>
+
+                <td>{{ usuario[1] }}</td>
+
+                <td>{{ usuario[2] }}</td>
+
+                <td>{{ usuario[3] }}</td>
+
+                <td>{{ usuario[4] }}</td>
+
+                <td>
+
+                    <a href="/excluir_usuario/{{ usuario[0] }}"
+                       class="btn btn-danger btn-sm">
+
+                       Excluir
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
 
 </div>
+
+<script>
+
+var ctx = document.getElementById("graficoReservas");
+
+new Chart(ctx, {
+
+    type: "bar",
+
+    data: {
+
+        labels: {{ areas | tojson }},
+
+        datasets: [{
+
+            label: "Reservas",
+
+            data: {{ quantidades | tojson }},
+
+            borderWidth: 1
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true
+
+            }
+
+        }
+
+    }
+
+});
+
+</script>
 
 {% endblock %}

@@ -1,18 +1,32 @@
-from flask import Flask, render_template, request, redirect, session, flash
-import mysql.connector
+from flask import (
+    Flask,
+    render_template,
+    request,
+    redirect,
+    session,
+    flash,
+    send_file
+)
+
+from reportlab.pdfgen import canvas
+
+from routes.auth import auth
+
+from database import conectar
+
+from routes.reservas import reservas
+
+from routes.admin import admin
 
 app = Flask(__name__)
+
+app.register_blueprint(auth)
+
 app.secret_key = "condominio"
 
-# CONEXAO MYSQL
-def conectar():
+app.register_blueprint(reservas)
 
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="root",
-        database="condominio"
-    )
+app.register_blueprint(admin)
 
 # CRIAR TABELAS
 def criar_banco():
@@ -28,7 +42,9 @@ def criar_banco():
         nome VARCHAR(100),
         email VARCHAR(100),
         senha VARCHAR(100),
-        tipo VARCHAR(50)
+        tipo VARCHAR(50),
+        bloco VARCHAR(20),
+        apartamento VARCHAR(20)
     )
     """)
 
@@ -90,75 +106,6 @@ def criar_banco():
 def inicio():
 
     return redirect("/login")
-
-# LOGIN
-@app.route("/login", methods=["GET", "POST"])
-def login():
-
-    if request.method == "POST":
-
-        email = request.form["email"]
-        senha = request.form["senha"]
-
-        conexao = conectar()
-
-        cursor = conexao.cursor()
-
-        cursor.execute("""
-        SELECT * FROM usuarios
-        WHERE email = %s
-        AND senha = %s
-        """, (email, senha))
-
-        usuario = cursor.fetchone()
-
-        conexao.close()
-
-        if usuario:
-
-            session["usuario"] = usuario[1]
-            session["id_usuario"] = usuario[0]
-            session["tipo"] = usuario[4]
-            session["bloco"] = usuario[5]
-            session["apartamento"] = usuario[6]
-
-            return redirect("/painel")
-
-        else:
-
-            return "Email ou senha incorretos!"
-
-    return render_template("login.html")
-
-# CADASTRO
-@app.route("/cadastro", methods=["GET", "POST"])
-def cadastro():
-
-    if request.method == "POST":
-
-        nome = request.form["nome"]
-        email = request.form["email"]
-        senha = request.form["senha"]
-        bloco = request.form["bloco"]
-        apartamento = request.form["apartamento"]
-
-        conexao = conectar()
-
-        cursor = conexao.cursor()
-
-        cursor.execute("""
-        INSERT INTO usuarios
-        (nome, email, senha, tipo, bloco, apartamento)
-        VALUES (%s, %s, %s, %s, %s, %s)
-        """, (nome, email, senha, "morador", bloco, apartamento))
-
-        conexao.commit()
-
-        conexao.close()
-
-        return redirect("/login")
-
-    return render_template("cadastro.html")
 
 # PAINEL
 @app.route("/painel")
@@ -228,90 +175,6 @@ def painel():
 
         quantidades=quantidades
 
-    )
-
-# RESERVAS
-@app.route("/reservas", methods=["GET", "POST"])
-def reservas():
-
-    if "usuario" not in session:
-
-        return redirect("/login")
-
-    conexao = conectar()
-
-    cursor = conexao.cursor()
-
-    if request.method == "POST":
-
-        area = request.form["area"]
-
-        data = request.form["data"]
-
-        horario = request.form["horario"]
-
-        cursor.execute("""
-        SELECT *
-        FROM reservas
-        WHERE area = %s
-        AND data = %s
-        AND horario = %s
-        """, (area, data, horario))
-
-        reserva_existente = cursor.fetchone()
-
-        if reserva_existente:
-
-            flash("Horário já reservado!")
-
-            conexao.close()
-
-            return redirect("/reservas")
-
-        cursor.execute("""
-        INSERT INTO reservas
-        (usuario_id, area, data, horario)
-
-        VALUES (%s, %s, %s, %s)
-        """, (
-            session["id_usuario"],
-            area,
-            data,
-            horario
-        ))
-
-        conexao.commit()
-
-        flash("Reserva realizada com sucesso!")
-
-        conexao.close()
-
-        return redirect("/lista")
-
-    cursor.execute("""
-    SELECT area, data, horario
-    FROM reservas
-    """)
-
-    reservas = cursor.fetchall()
-
-    eventos = []
-
-    for reserva in reservas:
-
-        eventos.append({
-
-            "title": f"{reserva[0]} - {reserva[2]}",
-
-            "start": str(reserva[1])
-
-        })
-
-    conexao.close()
-
-    return render_template(
-        "reservas.html",
-        eventos=eventos
     )
 
 # LISTA RESERVAS
@@ -536,43 +399,6 @@ def pagamentos():
         pagamentos=pagamentos
     )
 
-# LOGOUT
-@app.route("/logout")
-def logout():
-
-    session.clear()
-
-    return redirect("/login")
-
-@app.route("/admin")
-def admin():
-
-    if "usuario" not in session:
-
-        return redirect("/login")
-
-    if session["tipo"] != "admin":
-
-        return "Apenas administradores!"
-
-    conexao = conectar()
-
-    cursor = conexao.cursor()
-
-    cursor.execute("""
-    SELECT id, nome, email, bloco, apartamento
-    FROM usuarios
-    """)
-
-    usuarios = cursor.fetchall()
-
-    conexao.close()
-
-    return render_template(
-        "admin.html",
-        usuarios=usuarios
-    )
-
 @app.route("/excluir_usuario/<int:id>")
 def excluir_usuario(id):
 
@@ -655,6 +481,59 @@ def criar_pagamento():
     return render_template(
         "criar_pagamento.html",
         usuarios=usuarios
+    )
+
+@app.route("/relatorio")
+def relatorio():
+
+    if "usuario" not in session:
+
+        return redirect("/login")
+
+    if session["tipo"] != "admin":
+
+        return "Apenas administradores!"
+
+    conexao = conectar()
+
+    cursor = conexao.cursor()
+
+    cursor.execute("""
+    SELECT area, data, horario
+    FROM reservas
+    """)
+
+    reservas = cursor.fetchall()
+
+    pdf = canvas.Canvas("relatorio_reservas.pdf")
+
+    pdf.setFont("Helvetica-Bold", 18)
+
+    pdf.drawString(180, 800, "Relatório de Reservas")
+
+    y = 750
+
+    pdf.setFont("Helvetica", 12)
+
+    for reserva in reservas:
+
+        texto = f"""
+Área: {reserva[0]}
+ | Data: {reserva[1]}
+ | Horário: {reserva[2]}
+"""
+
+        pdf.drawString(50, y, texto)
+
+        y -= 30
+
+    pdf.save()
+
+    conexao.close()
+
+    return send_file(
+        "relatorio_reservas.pdf",
+        as_attachment=True
     )
 
 # CRIAR TABELAS
