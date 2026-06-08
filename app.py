@@ -107,7 +107,7 @@ def criar_banco():
 @app.route("/")
 def inicio():
 
-    return redirect("/login")
+  return render_template("index.html")
 
 # PAINEL
 @app.route("/painel")

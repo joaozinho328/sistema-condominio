@@ -277,3 +277,79 @@ canvas{
 footer{
     margin-top:50px;
 }
+
+/* TELA INICIAL */
+
+.home-container{
+    max-width:500px;
+    margin:120px auto;
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
+}
+
+.home-container h1{
+    margin-bottom:10px;
+}
+
+.home-container p{
+    margin-bottom:25px;
+    color:#666;
+}
+
+.home-container .btn{
+    width:100%;
+    margin-bottom:10px;
+}
+
+/* HOME */
+
+.home-container{
+
+    max-width:500px;
+
+    margin:80px auto;
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
+
+}
+
+.logo-home{
+
+    width:120px;
+
+    margin-bottom:20px;
+
+}
+
+.home-container h1{
+
+    font-size:32px;
+
+    margin-bottom:10px;
+
+}
+
+.home-container p{
+
+    color:#666;
+
+    margin-bottom:25px;
+
+}
+
+.home-container .btn{
+
+    width:100%;
+
+}
